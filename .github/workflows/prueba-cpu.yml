@@ -1,0 +1,67 @@
+# Prueba: FLUX.1-schnell SIN GPU en un ordenador de GitHub (gratis, sin límite diario).
+# Pinta 3 imágenes + una portada y mide cuánto tarda cada una.
+# A mano: pestaña Actions → «Prueba de imágenes sin GPU» → Run workflow.
+
+name: Prueba de imágenes sin GPU
+
+on:
+  workflow_dispatch:
+
+env:
+  SD_VERSION: master-1133-52491bd     # stable-diffusion.cpp, versión fija
+
+jobs:
+  prueba:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: stable-diffusion.cpp (de la caché o compilándolo)
+        id: cache-sd
+        uses: actions/cache@v4
+        with:
+          path: sd-bin
+          key: sd-${{ env.SD_VERSION }}-ubuntu-24.04
+
+      - name: Compilar stable-diffusion.cpp
+        if: steps.cache-sd.outputs.cache-hit != 'true'
+        run: |
+          T0=$(date +%s)
+          git clone --recursive --depth 1 -b "$SD_VERSION" https://github.com/leejet/stable-diffusion.cpp sdcpp
+          cmake -S sdcpp -B sdcpp/build -DCMAKE_BUILD_TYPE=Release -DGGML_NATIVE=OFF -DGGML_AVX2=ON -DGGML_FMA=ON -DGGML_F16C=ON
+          cmake --build sdcpp/build --config Release -j "$(nproc)"
+          mkdir -p sd-bin
+          BIN=$(find sdcpp/build/bin -maxdepth 1 -type f -executable \( -name sd -o -name sd-cli \) | head -1)
+          [ -n "$BIN" ] || { ls -la sdcpp/build/bin; exit 1; }
+          cp "$BIN" sd-bin/sd
+          echo "Compilado en $(( $(date +%s) - T0 )) s"
+
+      - name: Bajar el modelo (~10 GB, de Hugging Face, sin registro)
+        run: |
+          T0=$(date +%s)
+          python -m pip install -q "huggingface_hub[hf_transfer]==0.34.4" Pillow==11.3.0
+          HF_HUB_ENABLE_HF_TRANSFER=1 python -c "
+          from huggingface_hub import hf_hub_download
+          for f in ['flux1-schnell-Q4_0.gguf','t5xxl-Q4_0.gguf','clip_l.safetensors','ae.safetensors']:
+              hf_hub_download('second-state/FLUX.1-schnell-GGUF', f, local_dir='modelos')
+          "
+          ls -la modelos
+          echo "Bajado en $(( $(date +%s) - T0 )) s"
+          nproc; free -g
+
+      - name: Pintar
+        env:
+          SD_BIN: ${{ github.workspace }}/sd-bin/sd
+          MODELOS: ${{ github.workspace }}/modelos
+        run: python automatizacion/pintor_cpu.py --prueba
+
+      - uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: imagenes-cpu
+          path: pruebas/imagenes-cpu/
+          retention-days: 7
