@@ -21,13 +21,13 @@ jobs:
         run: |
           python -m pip install -q Pillow==11.3.0
           mkdir -p ~/.fonts
-          curl -fsSL -o ~/.fonts/Anton-Regular.ttf \
-            https://github.com/google/fonts/raw/main/ofl/anton/Anton-Regular.ttf || true
+          curl -fsSL -o ~/.fonts/PatrickHand-Regular.ttf \
+            https://github.com/google/fonts/raw/main/ofl/patrickhand/PatrickHand-Regular.ttf || true
       - name: Pintar
         env:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-          FUENTE_PORTADA: /home/runner/.fonts/Anton-Regular.ttf
+          FUENTE_PORTADA: /home/runner/.fonts/PatrickHand-Regular.ttf
         run: python automatizacion/pintor_cf.py --prueba
       - uses: actions/upload-artifact@v5
         if: always()

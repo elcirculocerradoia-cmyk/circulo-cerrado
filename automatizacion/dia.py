@@ -87,8 +87,8 @@ def main():
     pers = e.get("personajes", {})
     prompts = [prompt_de(s["imagen"], pers, s.get("quien")) for s in e["escenas"]]
     port = r.get("portada", {})
-    prompts.append(prompt_de(port.get("imagen", "the main character looking terrified"), pers,
-                             port.get("quien") or ["tu"], estilo=ESTILO_PORTADA))
+    # La portada va aparte: un retrato detallado (no el muñeco negro), con su propia descripción.
+    prompts.append(prompt_de(port.get("imagen", "a terrified young man, chest-up"), estilo=ESTILO_PORTADA))
     (carpeta / "prompts.json").write_text(json.dumps(prompts, indent=1, ensure_ascii=False), encoding="utf-8")
     destinos = [carpeta / "imagenes" / f"{i:03d}.jpg" for i in range(1, len(prompts))]
     destinos.append(carpeta / "imagenes" / "portada.jpg")

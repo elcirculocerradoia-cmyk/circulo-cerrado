@@ -102,6 +102,8 @@ En `resumen.json`:
   - **Uno de formato:** `#pov` o `#historias`.
   - **Uno o dos del mundo de la historia:** `#lujo`, `#dinero`, `#millonarios`, `#arte`…
   - **Nunca `#shorts`** (es vídeo largo) ni de relleno (`#viral`, `#fyp`, `#parati`).
-- **La portada:** dos o tres palabras en mayúsculas que den miedo a equivocarse: «NO FIRMES»,
-  «ES UNA TRAMPA», «NO EXISTE», «NO MIRES». Y una imagen con el protagonista en primer plano,
-  expresión muy marcada, y el elemento clave (el contrato, el maletín, el helicóptero) al lado.
+- **La portada:** como las miniaturas de referencia. **Fondo blanco**, el protagonista a la
+  izquierda (retrato del pecho para arriba, expresión muy marcada), y a la derecha **dos o tres
+  palabras** con la primera letra en mayúscula: la primera en **rojo** y el resto en **negro**,
+  con una flecha negra dibujada a mano que apunta al personaje. «No Firmes», «Es Una Trampa»,
+  «No Existe», «Muerto En Vida».

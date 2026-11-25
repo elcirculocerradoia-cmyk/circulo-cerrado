@@ -24,11 +24,15 @@ BASE = (
     "no text, no letters, no words, no watermark"
 )
 
-# Solo cuando en la escena sale alguien. Encuadre con aire encima de la cabeza: la imagen
-# de Cloudflare es cuadrada y se recorta a 16:9 (prueba del 25/11: cortaba cabezas).
+# Solo cuando en la escena sale alguien. Como el vídeo de referencia (25/11): muñecos con
+# el CUERPO NEGRO MACIZO (tronco, brazos, piernas y manos negros y gruesos) y una cabeza
+# redonda grande de color liso con la cara simple. Sin ropa: a cada personaje se le
+# reconoce por la cabeza (pelo, bigote, color, gafas). Encuadre con aire encima de la
+# cabeza: la imagen de Cloudflare es cuadrada y se recorta a 16:9.
 PERSONAS = (
-    "simple stickman-style character with a round head and thicker solid limbs, expressive hands, "
-    "clear simple facial expression with dot eyes and eyebrows, "
+    "stickman characters: solid black silhouette body, thick solid black arms and legs, "
+    "solid black hands, no clothes, large round flat-colored head with a thick black outline, "
+    "simple expressive cartoon face, "
     "wide shot, the whole head visible with empty space above it, subject in the middle"
 )
 
@@ -41,14 +45,15 @@ SIN_PERSONAS = (
 
 ESTILO = f"{BASE}, {PERSONAS}"      # se mantiene por compatibilidad
 
-# La portada: más contraste y más limpia, con sitio para el texto a un lado.
+# La portada, como la miniatura de referencia (25/11): retrato del protagonista sobre fondo
+# BLANCO liso, más detallado que en el vídeo y con la expresión muy marcada. La imagen
+# cuadrada se pega a la izquierda de la miniatura y el texto va a la derecha (portada.py).
 ESTILO_PORTADA = (
-    "2D cartoon illustration, bold thick black ink outlines, flat bright colors, high contrast, "
-    "simple stickman-style character with a round head and thicker solid limbs, "
-    "very exaggerated facial expression, character in the foreground on the right half, "
-    "the whole head visible with empty space above it, "
-    "clean simple light background, empty space on the left side, "
-    "youtube thumbnail style, no text, no letters, no words, no watermark"
+    "2D cartoon illustration, bold thick black ink outlines, flat colors with soft cel shading, "
+    "chest-up portrait of one character facing slightly to the right, "
+    "very exaggerated facial expression, detailed face and hair, "
+    "plain pure white background, nothing else in the image, centered, "
+    "no text, no letters, no words, no watermark"
 )
 
 

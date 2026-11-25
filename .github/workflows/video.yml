@@ -69,8 +69,8 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
           mkdir -p ~/.fonts
-          curl -fsSL -o ~/.fonts/Anton-Regular.ttf \
-            https://github.com/google/fonts/raw/main/ofl/anton/Anton-Regular.ttf || true
+          curl -fsSL -o ~/.fonts/PatrickHand-Regular.ttf \
+            https://github.com/google/fonts/raw/main/ofl/patrickhand/PatrickHand-Regular.ttf || true
           python -m pip install -q faster-whisper==1.2.0 Pillow==11.3.0
           npm install -g @anthropic-ai/claude-code
           claude --version
@@ -94,7 +94,7 @@ jobs:
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
           IDEA: ${{ inputs.idea }}
           SIN_SUBIR: ${{ inputs.sin_subir && '1' || '' }}
-          FUENTE_PORTADA: /home/runner/.fonts/Anton-Regular.ttf
+          FUENTE_PORTADA: /home/runner/.fonts/PatrickHand-Regular.ttf
         run: python automatizacion/dia.py
 
       # El vídeo y sus archivos, CIFRADOS con CLAVE_PRIVADA (el repo es público y el

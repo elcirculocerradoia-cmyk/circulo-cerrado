@@ -116,7 +116,14 @@ def pintar(prompts: list[str], destinos: list[Path], semilla: int | None = None)
         s = Image.open(io.BytesIO(b)).size
         tamanos[s] = tamanos.get(s, 0) + 1
         destinos[i].parent.mkdir(parents=True, exist_ok=True)
-        destinos[i].write_bytes(a_16_9(b))
+        # La portada se queda CUADRADA: portada.py la pega a la izquierda de la miniatura.
+        if destinos[i].name.startswith("portada"):
+            img = Image.open(io.BytesIO(b)).convert("RGB")
+            out = io.BytesIO()
+            img.save(out, "JPEG", quality=93)
+            destinos[i].write_bytes(out.getvalue())
+        else:
+            destinos[i].write_bytes(a_16_9(b))
 
     # La primera sola: así se sabe si acepta semilla antes de lanzar el resto.
     una(0)
@@ -134,11 +141,14 @@ def pintar(prompts: list[str], destinos: list[Path], semilla: int | None = None)
 
 # ── La prueba de 20 imágenes ──────────────────────────────────────────────────
 PERSONAJES_PRUEBA = {
-    "tu": "the main character: a young man in his late twenties, short messy brown hair, "
-          "thin mustache, white chef jacket, nervous eyes",
-    "magnate": "a tall rich man in his sixties, slicked back silver hair, dark sunglasses, "
-               "black tailored suit, gold watch",
+    "tu": "the main character: light beige round head, short messy black hair, "
+          "thin black mustache, nervous eyes",
+    "magnate": "an older rich man: pale grey round head, slicked back silver hair, "
+               "dark sunglasses, a gold watch on his black wrist",
 }
+# La portada: el mismo protagonista, pero más detallado (como la miniatura de referencia).
+PORTADA_PRUEBA = ("the main character, a young man with short messy black hair, thin black mustache, "
+                  "dark circles under the eyes, sweating, terrified, wearing a white chef jacket")
 ESCENAS_PRUEBA = [
     ("tu", "sitting at a small kitchen table in a tiny cheap apartment at night, unpaid bills scattered, warm lamp light"),
     ("tu", "looking shocked at a smartphone screen glowing in the dark bedroom"),
@@ -170,8 +180,7 @@ def prueba():
     salida = raiz / "pruebas" / "imagenes-cloudflare"
     prompts = [prompt_de(d, PERSONAJES_PRUEBA, [q for q in quien.split(",") if q])
                for quien, d in ESCENAS_PRUEBA]
-    prompts.append(prompt_de("terrified face looking up at a black helicopter in the night sky",
-                             PERSONAJES_PRUEBA, ["tu"], estilo=ESTILO_PORTADA))
+    prompts.append(prompt_de(PORTADA_PRUEBA, estilo=ESTILO_PORTADA))
     destinos = [salida / f"{i:02d}.jpg" for i in range(1, len(prompts))] + [salida / "portada-base.jpg"]
     print(f"==> Prueba: {len(prompts)} imágenes con FLUX.1-schnell en Cloudflare", flush=True)
     try:
@@ -187,7 +196,7 @@ def prueba():
     tmp = salida / "portada"
     (tmp / "imagenes").mkdir(parents=True, exist_ok=True)
     (tmp / "imagenes" / "portada.jpg").write_bytes((salida / "portada-base.jpg").read_bytes())
-    (tmp / "resumen.json").write_text(json.dumps({"portada": {"texto": "NO MIRES"}}), encoding="utf-8")
+    (tmp / "resumen.json").write_text(json.dumps({"portada": {"texto": "No Mires"}}), encoding="utf-8")
     subprocess.run([sys.executable, str(Path(__file__).resolve().parent / "portada.py")], cwd=tmp, check=False)
     print(f"==> Imágenes en {salida}")
 

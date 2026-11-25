@@ -18,8 +18,8 @@ suena**. Una imagen nueva cada 4-5 segundos: para 12 minutos salen **unas 150 es
 {
   "titulo_historia": "La isla del helicóptero de los viernes",
   "personajes": {
-    "tu": "the main character: a young man in his late twenties, short messy brown hair, thin mustache, white shirt, nervous eyes",
-    "magnate": "a tall rich man in his sixties, slicked back silver hair, dark sunglasses, black tailored suit, gold watch"
+    "tu": "the main character: light beige round head, short messy black hair, thin black mustache, nervous eyes",
+    "magnate": "an older rich man: pale grey round head, slicked back silver hair, dark sunglasses, a gold watch on his black wrist"
   },
   "escenas": [
     {
@@ -46,8 +46,11 @@ suena**. Una imagen nueva cada 4-5 segundos: para 12 minutos salen **unas 150 es
 - **`quien`**: las claves de `personajes` que salen en esa imagen (puede ir vacía: un paisaje,
   un objeto). Máximo dos personajes por imagen: más se dibujan mal.
 - **`personajes`** (en inglés, máximo 30 palabras cada uno): cómo es cada personaje que se repite.
-  El protagonista **siempre** con la clave `tu`. Rasgos fáciles de reconocer en un dibujo simple
-  (pelo, bigote, ropa, un color) y que **no cambian** en toda la historia.
+  El protagonista **siempre** con la clave `tu`. **Ojo al estilo del canal: los personajes son
+  muñecos con el cuerpo negro macizo (tronco, brazos, piernas y manos negros) y una cabeza redonda
+  grande de color liso. No llevan ropa.** A cada uno se le reconoce **solo por la cabeza**: color
+  de la cabeza, pelo, bigote o barba, gafas, sombrero, y como mucho un objeto (un reloj de oro, un
+  maletín). Rasgos que **no cambian** en toda la historia y que se distingan entre personajes.
 - **Varía los planos**: generales del sitio, medios, primeros planos de la cara, detalles de
   objetos (el contrato, el maletín, el reloj, la pantalla del móvil). Que no salgan diez caras
   seguidas.
@@ -64,9 +67,8 @@ palabras por segundo, así que eso son 11-13 minutos).
   "hashtags": ["#circulocerrado", "#pov", "#lujo", "#millonarios"],
   "etiquetas": ["historia pov", "millonarios", "isla privada", "thriller"],
   "portada": {
-    "texto": "NO MIRES",
-    "imagen": "terrified face looking up at a black helicopter in the night sky, a big red closed door on the side",
-    "quien": ["tu"]
+    "texto": "No Mires",
+    "imagen": "the main character, a young man with short messy black hair and a thin black mustache, dark circles under the eyes, sweating, terrified, wearing a white shirt"
   },
   "tema": "Chef en una isla privada que descubre quién llega los viernes",
   "mundo": "islas privadas"
@@ -75,8 +77,13 @@ palabras por segundo, así que eso son 11-13 minutos).
 
 - `titulo`, `descripcion` y `hashtags` con las reglas del apartado «Para subirlo» del brief.
 - `etiquetas`: de 5 a 12, en minúsculas, para el buscador de YouTube.
-- `portada.texto`: **dos o tres palabras**, en mayúsculas. `portada.imagen`: en inglés, el
-  protagonista en primer plano con la expresión muy marcada y el elemento clave.
+- `portada.texto`: **dos o tres palabras**, con la primera letra de cada palabra en mayúscula
+  («No Firmes», «Es Una Trampa», «Muerto En Vida»). La primera palabra sale en rojo y el resto en
+  negro, sobre fondo blanco.
+- `portada.imagen` (en inglés, máximo 40 palabras): **un retrato del protagonista, del pecho para
+  arriba**, más detallado que en el vídeo: aquí sí es una persona dibujada, con su pelo, bigote,
+  ropa y una **expresión muy marcada** (miedo, agotamiento, sorpresa). **Solo él**: nada de fondo ni
+  objetos (va sobre blanco). Que tenga el mismo pelo y bigote que el `tu` de `personajes`.
 - `tema`: una línea para el historial. `mundo`: de qué mundo va (arte, finanzas, herencias…),
   para no repetirlo mañana.
 
