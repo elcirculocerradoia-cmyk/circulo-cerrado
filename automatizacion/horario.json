@@ -1,0 +1,23 @@
+{
+  "_comentario": [
+    "Círculo Cerrado: a qué hora sale el vídeo cada día. Horas de Madrid; el desfase",
+    "(+01:00 en invierno, +02:00 en verano) lo calcula cuando.mjs, no lo escribas aquí.",
+    "",
+    "Tabla del canal (25/11/2026). 'mejor' es la primera hora de su tabla y 'segunda' la",
+    "otra. Se usa la primera que siga en el futuro (con 30 min de margen): como Modal hace",
+    "el vídeo a las 9:45 y tarda ~1 h, entre semana sale a la de mediodía; el sábado y el",
+    "domingo la de la mañana ya habrá pasado y sale a la de la tarde (19:30).",
+    "",
+    "Si cambias una hora, escríbela como 'HH:MM' en 24 h. Para quitar un hueco, pon null."
+  ],
+  "zona": "Europe/Madrid",
+  "dias": {
+    "lunes":     { "mejor": "15:00", "segunda": "20:30" },
+    "martes":    { "mejor": "15:00", "segunda": "21:00" },
+    "miercoles": { "mejor": "14:30", "segunda": "21:00" },
+    "jueves":    { "mejor": "14:30", "segunda": "20:30" },
+    "viernes":   { "mejor": "14:00", "segunda": "20:00" },
+    "sabado":    { "mejor": "11:00", "segunda": "19:30" },
+    "domingo":   { "mejor": "10:30", "segunda": "19:30" }
+  }
+}

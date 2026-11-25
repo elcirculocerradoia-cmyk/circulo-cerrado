@@ -1,0 +1,37 @@
+# La prueba de 20 imágenes (+ una portada) con FLUX.1-schnell en Cloudflare.
+# A mano: pestaña Actions → «Prueba de imágenes» → Run workflow.
+# Las imágenes se descargan desde el resumen de la ejecución (artifact «imagenes-prueba»).
+# Gasta unas 1.200 de las 10.000 neuronas gratis del día.
+
+name: Prueba de imágenes
+
+on:
+  workflow_dispatch:
+
+jobs:
+  prueba:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Instalar
+        run: |
+          python -m pip install -q Pillow==11.3.0
+          mkdir -p ~/.fonts
+          curl -fsSL -o ~/.fonts/Anton-Regular.ttf \
+            https://github.com/google/fonts/raw/main/ofl/anton/Anton-Regular.ttf || true
+      - name: Pintar
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          FUENTE_PORTADA: /home/runner/.fonts/Anton-Regular.ttf
+        run: python automatizacion/pintor_cf.py --prueba
+      - uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: imagenes-prueba
+          path: pruebas/imagenes-cloudflare/
+          retention-days: 7

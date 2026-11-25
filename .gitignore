@@ -1,0 +1,9 @@
+# Lo que NO se sube al repositorio (que es público).
+ESTADO.md
+salida/
+pruebas/
+clips/
+__pycache__/
+*.pyc
+.env
+automatizacion/canales/autorizado.json

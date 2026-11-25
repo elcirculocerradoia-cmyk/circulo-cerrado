@@ -1,0 +1,117 @@
+# El vídeo del día de Círculo Cerrado, en GitHub Actions (gratis en un repositorio público).
+#
+# Cada día a las 9:45 de Madrid: guion (Claude) → voz (Gemini) → imágenes (Cloudflare)
+# → montaje (ffmpeg) → portada → YouTube programado. Todo lo hace automatizacion/dia.py.
+#
+# GitHub solo entiende UTC: el reloj salta a las 7:45 y a las 8:45 UTC (9:45 de Madrid en
+# verano y en invierno) y toca_hoy.py decide cuál vale. Si falla, NO se repite solo.
+#
+# A mano: pestaña Actions → «Vídeo del día» → Run workflow (por defecto, SIN subir).
+
+name: Vídeo del día
+
+on:
+  schedule:
+    - cron: "45 7 * * *"
+    - cron: "45 8 * * *"
+  workflow_dispatch:
+    inputs:
+      idea:
+        description: "Historia de hoy (opcional; si no, la elige Claude)"
+        required: false
+        default: ""
+      sin_subir:
+        description: "Hacer el vídeo SIN subirlo a YouTube"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write          # para guardar el historial en el repo
+
+concurrency:
+  group: video-del-dia
+  cancel-in-progress: false
+
+jobs:
+  video:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main        # lo último, no el commit de cuando saltó el reloj
+
+      - name: ¿Toca hoy?
+        id: toca
+        run: python3 automatizacion/toca_hoy.py "${{ github.event_name }}" >> "$GITHUB_OUTPUT"
+
+      - name: Apuntar que hoy ya se ha empezado
+        if: steps.toca.outputs.seguir == 'true' && github.event_name == 'schedule'
+        run: |
+          git config user.name "circulo-cerrado-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add automatizacion/canales/circulo-cerrado-ultimo.txt
+          git commit -m "Empieza el vídeo del $(TZ=Europe/Madrid date +%F)"
+          git push
+
+      - uses: actions/setup-python@v6
+        if: steps.toca.outputs.seguir == 'true'
+        with:
+          python-version: "3.12"
+
+      - name: Instalar ffmpeg, letra, whisper y Claude Code
+        if: steps.toca.outputs.seguir == 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+          mkdir -p ~/.fonts
+          curl -fsSL -o ~/.fonts/Anton-Regular.ttf \
+            https://github.com/google/fonts/raw/main/ofl/anton/Anton-Regular.ttf || true
+          python -m pip install -q faster-whisper==1.2.0 Pillow==11.3.0
+          npm install -g @anthropic-ai/claude-code
+          claude --version
+          ffmpeg -version | head -1
+
+      - name: Hacer el vídeo
+        if: steps.toca.outputs.seguir == 'true'
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          IDEA: ${{ inputs.idea }}
+          SIN_SUBIR: ${{ inputs.sin_subir && '1' || '' }}
+          FUENTE_PORTADA: /home/runner/.fonts/Anton-Regular.ttf
+        run: python automatizacion/dia.py
+
+      # Lo hecho se guarda 7 días en la pestaña Actions, aunque haya fallado.
+      # Ojo: en un repositorio público cualquiera con cuenta de GitHub puede descargarlo.
+      - name: Guardar el vídeo y lo demás
+        if: always() && steps.toca.outputs.seguir == 'true'
+        uses: actions/upload-artifact@v5
+        with:
+          name: video-${{ github.run_id }}
+          path: |
+            salida/*/video.mp4
+            salida/*/portada.jpg
+            salida/*/escenas.json
+            salida/*/resumen.json
+            salida/*/tiempos.json
+            salida/*/medidas.json
+            salida/*/dia.log
+            salida/*/claude.log
+          retention-days: 7
+          if-no-files-found: warn
+
+      - name: Guardar el historial en el repo
+        if: always() && steps.toca.outputs.seguir == 'true'
+        run: |
+          git config user.name "circulo-cerrado-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add automatizacion/canales/
+          git diff --cached --quiet && exit 0
+          git commit -m "Historial del $(TZ=Europe/Madrid date +%F)"
+          git pull --rebase -q && git push

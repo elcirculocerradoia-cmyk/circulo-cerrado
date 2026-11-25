@@ -1,0 +1,4 @@
+# Todo en LF: los scripts se ejecutan en Linux (GitHub Actions); con CRLF bash falla.
+* text=auto eol=lf
+*.jpg binary
+*.png binary
