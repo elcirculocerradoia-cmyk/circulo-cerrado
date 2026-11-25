@@ -87,7 +87,8 @@ def _llamar(prompt: str, semilla: int | None) -> bytes:
 
 
 def a_16_9(b: bytes, calidad=93) -> bytes:
-    """Recorta al centro a 16:9 (un poco por encima del centro: ahí suelen estar las caras)."""
+    """Recorta a 16:9 quedándose con la parte de ARRIBA-centro (a 0,2 del margen libre):
+    en la prueba del 25/11, a 0,45 cortaba la cabeza de casi todos."""
     img = Image.open(io.BytesIO(b)).convert("RGB")
     w, h = img.size
     if w / h > 16 / 9:
@@ -96,7 +97,7 @@ def a_16_9(b: bytes, calidad=93) -> bytes:
         img = img.crop((x, 0, x + nw, h))
     else:
         nh = round(w * 9 / 16)
-        y = max(0, min(h - nh, round((h - nh) * 0.45)))
+        y = max(0, min(h - nh, round((h - nh) * 0.2)))
         img = img.crop((0, y, w, y + nh))
     out = io.BytesIO()
     img.save(out, "JPEG", quality=calidad)
