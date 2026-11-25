@@ -53,7 +53,7 @@ def lanzar(trabajos, salida: Path, semilla=1234, espera_max=110 * 60):
 
     print(f"==> Mandando {len(trabajos)} imágenes a Kaggle ({usuario}/{NOMBRE})", flush=True)
     c, txt = kaggle("kernels", "push", "-p", str(dir_k))
-    print("   ", txt.strip().replace(os.environ["HF_TOKEN"], "[token]")[:500], flush=True)
+    print("   ", txt.strip().replace(os.environ["HF_TOKEN"], "[token]")[-1500:], flush=True)
     if c != 0:
         morir("Kaggle no ha aceptado el cuaderno.")
 

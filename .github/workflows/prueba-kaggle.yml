@@ -18,7 +18,7 @@ jobs:
           python-version: "3.12"
       - name: Instalar
         run: |
-          python -m pip install -q kaggle Pillow==11.3.0
+          python -m pip install -q kaggle six Pillow==11.3.0   # six: a kaggle 2.2.5 le falta
           mkdir -p ~/.fonts
           curl -fsSL -o ~/.fonts/PatrickHand-Regular.ttf \
             https://github.com/google/fonts/raw/main/ofl/patrickhand/PatrickHand-Regular.ttf || true
