@@ -1,0 +1,37 @@
+# Prueba: las 20 imágenes (+ portada) pintadas con la GPU gratis de Kaggle.
+# GitHub manda las descripciones a un cuaderno PRIVADO de Kaggle, espera y se trae las
+# imágenes y los tiempos. A mano: Actions → «Prueba de imágenes en Kaggle» → Run workflow.
+
+name: Prueba de imágenes en Kaggle
+
+on:
+  workflow_dispatch:
+
+jobs:
+  prueba:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 130
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Instalar
+        run: |
+          python -m pip install -q kaggle Pillow==11.3.0
+          mkdir -p ~/.fonts
+          curl -fsSL -o ~/.fonts/PatrickHand-Regular.ttf \
+            https://github.com/google/fonts/raw/main/ofl/patrickhand/PatrickHand-Regular.ttf || true
+      - name: Pintar en Kaggle
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          FUENTE_PORTADA: /home/runner/.fonts/PatrickHand-Regular.ttf
+        run: python automatizacion/kaggle_lanzar.py --prueba
+      - uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: imagenes-kaggle
+          path: pruebas/imagenes-kaggle/
+          retention-days: 7
