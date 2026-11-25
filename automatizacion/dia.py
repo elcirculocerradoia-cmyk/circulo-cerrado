@@ -92,15 +92,20 @@ def main():
     (carpeta / "prompts.json").write_text(json.dumps(prompts, indent=1, ensure_ascii=False), encoding="utf-8")
     destinos = [carpeta / "imagenes" / f"{i:03d}.jpg" for i in range(1, len(prompts))]
     destinos.append(carpeta / "imagenes" / "portada.jpg")
+    from estilo import BASE, PERSONAS
+    simples = [prompt_de(s["imagen"], estilo=f"{BASE}, {PERSONAS}" if s.get("quien") else None)
+               for s in e["escenas"]] + [None]
     log(f"==> FLUX pinta {len(prompts)} imágenes (semilla {hoy:%Y%m%d})\n")
     try:
-        medida = pintar(prompts, destinos, semilla=int(f"{hoy:%Y%m%d}"))
+        medida = pintar(prompts, destinos, semilla=int(f"{hoy:%Y%m%d}"), simples=simples)
     except SinNeuronas as x:
         log(f"\nERROR: se ha acabado lo gratis de hoy en Cloudflare (10.000 neuronas): {x}\n")
         sys.exit(1)
     except RuntimeError as x:
         log(f"\nERROR: {x}\n")
         sys.exit(1)
+    if medida["fallos"]:
+        log(f"  AVISO: {len(medida['fallos'])} imágenes rechazadas, sustituidas por la de al lado.\n")
     log(f"==> Listas en {medida['segundos']:.0f} s. Tamaño original: {medida['tamano_original']}. "
         f"Semilla: {'sí' if medida['con_semilla'] else 'no'}.\n")
     (carpeta / "medidas.json").write_text(json.dumps(medida, indent=1), encoding="utf-8")

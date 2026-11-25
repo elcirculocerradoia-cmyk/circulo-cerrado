@@ -26,14 +26,18 @@ BASE = (
 
 # Solo cuando en la escena sale alguien. Como el vídeo de referencia (25/11): muñecos con
 # el CUERPO NEGRO MACIZO (tronco, brazos, piernas y manos negros y gruesos) y una cabeza
-# redonda grande de color liso con la cara simple. Sin ropa: a cada personaje se le
+# redonda grande de color liso con la cara simple. NO escribir «no clothes»: Cloudflare
+# rechazó una imagen así (25/11). Plano medio: si no, salen solo cabezas gigantes.
+# Sin ropa: a cada personaje se le
 # reconoce por la cabeza (pelo, bigote, color, gafas). Encuadre con aire encima de la
 # cabeza: la imagen de Cloudflare es cuadrada y se recorta a 16:9.
 PERSONAS = (
-    "stickman characters: solid black silhouette body, thick solid black arms and legs, "
-    "solid black hands, no clothes, large round flat-colored head with a thick black outline, "
-    "simple expressive cartoon face, "
-    "wide shot, the whole head visible with empty space above it, subject in the middle"
+    "stickman characters whose whole body is one flat solid black shape like a shadow, "
+    "including neck, shoulders, torso, thick arms, legs and hands, "
+    "large round flat-colored head with a thick black outline, simple expressive cartoon face, "
+    "medium shot from the waist up or full body, the black body clearly visible, "
+    "the head no bigger than a third of the image height, empty space above the head, "
+    "subject in the middle"
 )
 
 # Cuando no sale nadie (un paisaje, un objeto). Sin esto FLUX se inventa un muñeco

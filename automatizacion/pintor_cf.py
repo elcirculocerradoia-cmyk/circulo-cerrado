@@ -104,15 +104,19 @@ def a_16_9(b: bytes, calidad=93) -> bytes:
     return out.getvalue()
 
 
-def pintar(prompts: list[str], destinos: list[Path], semilla: int | None = None) -> dict:
-    """Pinta cada prompt en su destino (JPEG 16:9). Devuelve tiempos y tamaño original."""
+def pintar(prompts: list[str], destinos: list[Path], semilla: int | None = None,
+           simples: list[str] | None = None) -> dict:
+    """Pinta cada prompt en su destino (JPEG 16:9; la portada, cuadrada).
+
+    Si Cloudflare rechaza una imagen (pasó el 25/11 con una escena de dos personajes), se
+    prueba con `simples[i]` (la escena sin las descripciones de los personajes) y, si
+    tampoco, se reutiliza la imagen de al lado: un vídeo no se cae por una imagen.
+    Solo se para si fallan más de 1 de cada 10, o si se acaba lo gratis del día."""
     t0 = time.time()
     tamanos = {}
+    fallos = {}
 
-    def una(i):
-        if destinos[i].exists():          # si se relanza, no se vuelve a gastar
-            return
-        b = _llamar(prompts[i], semilla)
+    def guardar(i, b):
         s = Image.open(io.BytesIO(b)).size
         tamanos[s] = tamanos.get(s, 0) + 1
         destinos[i].parent.mkdir(parents=True, exist_ok=True)
@@ -125,6 +129,24 @@ def pintar(prompts: list[str], destinos: list[Path], semilla: int | None = None)
         else:
             destinos[i].write_bytes(a_16_9(b))
 
+    def una(i):
+        if destinos[i].exists():          # si se relanza, no se vuelve a gastar
+            return
+        try:
+            guardar(i, _llamar(prompts[i], semilla))
+            return
+        except RuntimeError as e:
+            primero = str(e)
+        if simples and simples[i] and simples[i] != prompts[i]:
+            try:
+                guardar(i, _llamar(simples[i], semilla))
+                print(f"  AVISO: la imagen {i + 1} salió con el texto simple.", flush=True)
+                return
+            except RuntimeError as e:
+                primero += f" | simple: {e}"
+        fallos[i] = primero[:500]
+        print(f"  AVISO: Cloudflare no ha pintado la imagen {i + 1}.", flush=True)
+
     # La primera sola: así se sabe si acepta semilla antes de lanzar el resto.
     una(0)
     hechas = 1
@@ -133,10 +155,26 @@ def pintar(prompts: list[str], destinos: list[Path], semilla: int | None = None)
             hechas += 1
             if hechas % 25 == 0:
                 print(f"  {hechas}/{len(prompts)} imágenes", flush=True)
-    total = time.time() - t0
-    return {"imagenes": len(prompts), "segundos": round(total, 1),
-            "tamano_original": {f"{w}x{h}": n for (w, h), n in tamanos.items()},
-            "con_semilla": _con_semilla}
+
+    # Las que fallaron: la de al lado (antes la anterior; si no hay, la siguiente).
+    normales = [i for i in range(len(prompts)) if not destinos[i].name.startswith("portada")]
+    for i in sorted(fallos):
+        vecinas = [j for j in normales if j != i and j not in fallos and destinos[j].exists()]
+        if destinos[i].name.startswith("portada") or not vecinas:
+            continue
+        j = min(vecinas, key=lambda j: (abs(j - i), j > i))
+        destinos[i].write_bytes(destinos[j].read_bytes())
+    resultado = {"imagenes": len(prompts), "segundos": round(time.time() - t0, 1),
+                 "tamano_original": {f"{w}x{h}": n for (w, h), n in tamanos.items()},
+                 "con_semilla": _con_semilla,
+                 "fallos": {str(i + 1): e for i, e in sorted(fallos.items())}}
+    if len(fallos) > max(1, len(prompts) // 10):
+        raise RuntimeError(f"Cloudflare ha rechazado {len(fallos)} imágenes de {len(prompts)}: "
+                           f"{json.dumps(resultado['fallos'], ensure_ascii=False)[:1500]}")
+    portada = [i for i in fallos if destinos[i].name.startswith("portada")]
+    if portada:
+        raise RuntimeError(f"Cloudflare no ha pintado la portada: {fallos[portada[0]]}")
+    return resultado
 
 
 # ── La prueba de 20 imágenes ──────────────────────────────────────────────────
@@ -175,18 +213,26 @@ ESCENAS_PRUEBA = [
 
 def prueba():
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from estilo import prompt_de, ESTILO_PORTADA
+    from estilo import prompt_de, ESTILO_PORTADA, BASE, PERSONAS
     raiz = Path(__file__).resolve().parent.parent
     salida = raiz / "pruebas" / "imagenes-cloudflare"
     prompts = [prompt_de(d, PERSONAJES_PRUEBA, [q for q in quien.split(",") if q])
                for quien, d in ESCENAS_PRUEBA]
     prompts.append(prompt_de(PORTADA_PRUEBA, estilo=ESTILO_PORTADA))
+    simples = [prompt_de(d, estilo=f"{BASE}, {PERSONAS}" if quien else None)
+               for quien, d in ESCENAS_PRUEBA] + [None]
     destinos = [salida / f"{i:02d}.jpg" for i in range(1, len(prompts))] + [salida / "portada-base.jpg"]
     print(f"==> Prueba: {len(prompts)} imágenes con FLUX.1-schnell en Cloudflare", flush=True)
+    salida.mkdir(parents=True, exist_ok=True)
     try:
-        r = pintar(prompts, destinos, semilla=1234)
+        r = pintar(prompts, destinos, semilla=1234, simples=simples)
     except SinNeuronas as e:
         _morir(f"Se ha acabado lo gratis de hoy en Cloudflare: {e}")
+    except RuntimeError as e:
+        (salida / "error.txt").write_text(str(e), encoding="utf-8")
+        _morir(str(e))
+    if r["fallos"]:
+        print(f"  Fallos (sustituidas por la de al lado): {r['fallos']}")
     print(f"==> Hecho en {r['segundos']:.0f} s ({r['segundos'] / len(prompts):.1f} s por imagen con "
           f"{A_LA_VEZ} a la vez). Tamaño que da Cloudflare: {r['tamano_original']}. "
           f"Semilla: {'sí' if r['con_semilla'] else 'no'}.")
