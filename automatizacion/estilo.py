@@ -19,25 +19,27 @@ FLUX entiende mejor el inglés, así que las descripciones van en inglés.
 # Ilustración 2D con trazo negro marcado, fondos 2D detallados y sombreados.
 # Nada de texto: FLUX tiende a escribir letras.
 BASE = (
-    "2D cartoon illustration, bold thick black ink outlines, flat colors with soft cel shading, "
-    "detailed shaded 2D background, moody lighting, comic panel style, clean lines, "
+    "adult 2D animation frame for a serious documentary story, clean black line art, "
+    "muted desaturated color palette, dark moody cinematic lighting from a single light source "
+    "with soft gradient shading, gritty tense atmosphere, detailed but simple background, "
+    "not cute, not childish, no bright saturated colors, "
     "no text, no letters, no words, no watermark"
 )
 
-# Solo cuando en la escena sale alguien. Como el vídeo de referencia (25/11): muñecos con
-# el CUERPO NEGRO MACIZO (tronco, brazos, piernas y manos negros y gruesos) y una cabeza
-# redonda grande de color liso con la cara simple. NO escribir «no clothes»: Cloudflare
-# rechazó una imagen así (25/11). Plano medio: si no, salen solo cabezas gigantes.
-# Sin ropa: a cada personaje se le
-# reconoce por la cabeza (pelo, bigote, color, gafas). Encuadre con aire encima de la
-# cabeza: la imagen de Cloudflare es cuadrada y se recorta a 16:9.
+# Solo cuando en la escena sale alguien. EXACTAMENTE como el vídeo de referencia de Rubén
+# (25/11): cabeza perfectamente redonda con borde negro grueso y piel lisa gris-beige, SIN
+# nariz ni orejas, ojos de puntito negro, cejas y boca de una raya, cara seria de adulto;
+# cuerpo de palo NEGRO y fino (brazos y piernas de palo, manos negras). A cada personaje
+# se le reconoce por el pelo (negro liso, calvo, canoso), bigote o gafas.
+# NO escribir «no clothes»: Cloudflare rechazó una imagen así. Plano medio: si no, salen
+# solo cabezas gigantes. Primera versión (colores vivos, caras infantiles): descartada.
 PERSONAS = (
-    "stickman characters whose whole body is one flat solid black shape like a shadow, "
-    "including neck, shoulders, torso, thick arms, legs and hands, "
-    "large round flat-colored head with a thick black outline, simple expressive cartoon face, "
-    "medium shot from the waist up or full body, the black body clearly visible, "
-    "the head no bigger than a third of the image height, empty space above the head, "
-    "subject in the middle"
+    "stick figure characters: perfectly round head with a thick black outline and flat "
+    "grey-beige skin, no nose, no ears, tiny solid black dot eyes, thick simple eyebrow lines, "
+    "a simple line mouth, serious deadpan adult expression; thin solid black stick body, "
+    "thin black stick arms and legs, black hands; "
+    "medium shot from the waist up or full body, the black stick body clearly visible, "
+    "empty space above the head, subject in the middle"
 )
 
 # Cuando no sale nadie (un paisaje, un objeto). Sin esto FLUX se inventa un muñeco
@@ -53,9 +55,10 @@ ESTILO = f"{BASE}, {PERSONAS}"      # se mantiene por compatibilidad
 # BLANCO liso, más detallado que en el vídeo y con la expresión muy marcada. La imagen
 # cuadrada se pega a la izquierda de la miniatura y el texto va a la derecha (portada.py).
 ESTILO_PORTADA = (
-    "2D cartoon illustration, bold thick black ink outlines, flat colors with soft cel shading, "
-    "chest-up portrait of one character facing slightly to the right, "
-    "very exaggerated facial expression, detailed face and hair, "
+    "detailed adult 2D cartoon illustration, bold black ink outlines, muted realistic colors "
+    "with soft cel shading, realistic proportions, chest-up portrait of one man facing slightly "
+    "to the right, very expressive tired or scared face with dark circles under the eyes, "
+    "detailed face and hair, not cute, not childish, "
     "plain pure white background, nothing else in the image, centered, "
     "no text, no letters, no words, no watermark"
 )

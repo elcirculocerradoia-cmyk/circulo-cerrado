@@ -18,8 +18,8 @@ suena**. Una imagen nueva cada 4-5 segundos: para 12 minutos salen **unas 150 es
 {
   "titulo_historia": "La isla del helicóptero de los viernes",
   "personajes": {
-    "tu": "the main character: light beige round head, short messy black hair, thin black mustache, nervous eyes",
-    "magnate": "an older rich man: pale grey round head, slicked back silver hair, dark sunglasses, a gold watch on his black wrist"
+    "tu": "the main character: short neat black hair, thin black mustache",
+    "magnate": "an older man: bald head, dark sunglasses"
   },
   "escenas": [
     {
@@ -46,11 +46,12 @@ suena**. Una imagen nueva cada 4-5 segundos: para 12 minutos salen **unas 150 es
 - **`quien`**: las claves de `personajes` que salen en esa imagen (puede ir vacía: un paisaje,
   un objeto). Máximo dos personajes por imagen: más se dibujan mal.
 - **`personajes`** (en inglés, máximo 30 palabras cada uno): cómo es cada personaje que se repite.
-  El protagonista **siempre** con la clave `tu`. **Ojo al estilo del canal: los personajes son
-  muñecos con el cuerpo negro macizo (tronco, brazos, piernas y manos negros) y una cabeza redonda
-  grande de color liso. No llevan ropa.** A cada uno se le reconoce **solo por la cabeza**: color
-  de la cabeza, pelo, bigote o barba, gafas, sombrero, y como mucho un objeto (un reloj de oro, un
-  maletín). Rasgos que **no cambian** en toda la historia y que se distingan entre personajes.
+  El protagonista **siempre** con la clave `tu`. **Ojo al estilo del canal: todos los personajes
+  son iguales**: cabeza perfectamente redonda gris-beige sin nariz, ojos de puntito, cuerpo de palo
+  negro. Eso ya lo pone el programa: **no lo describas**. A cada uno se le reconoce **solo por el
+  pelo y un rasgo**: pelo negro corto, calvo, canoso peinado hacia atrás, bigote, barba, gafas de
+  sol, gorra… Rasgos que **no cambian** en toda la historia y que se distingan entre personajes.
+  Nada de colores de piel ni de ropa.
 - **Varía los planos**: generales del sitio, medios, primeros planos de la cara, detalles de
   objetos (el contrato, el maletín, el reloj, la pantalla del móvil). Que no salgan diez caras
   seguidas.

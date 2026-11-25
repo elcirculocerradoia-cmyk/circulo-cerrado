@@ -179,14 +179,12 @@ def pintar(prompts: list[str], destinos: list[Path], semilla: int | None = None,
 
 # ── La prueba de 20 imágenes ──────────────────────────────────────────────────
 PERSONAJES_PRUEBA = {
-    "tu": "the main character: light beige round head, short messy black hair, "
-          "thin black mustache, nervous eyes",
-    "magnate": "an older rich man: pale grey round head, slicked back silver hair, "
-               "dark sunglasses, a gold watch on his black wrist",
+    "tu": "the main character: short neat black hair, thin black mustache",
+    "magnate": "an older man: bald head, dark sunglasses",
 }
 # La portada: el mismo protagonista, pero más detallado (como la miniatura de referencia).
-PORTADA_PRUEBA = ("the main character, a young man with short messy black hair, thin black mustache, "
-                  "dark circles under the eyes, sweating, terrified, wearing a white chef jacket")
+PORTADA_PRUEBA = ("a man in his thirties with short neat black hair and a thin black mustache, "
+                  "dark circles under the eyes, exhausted and scared, wearing a wrinkled white shirt")
 ESCENAS_PRUEBA = [
     ("tu", "sitting at a small kitchen table in a tiny cheap apartment at night, unpaid bills scattered, warm lamp light"),
     ("tu", "looking shocked at a smartphone screen glowing in the dark bedroom"),
