@@ -7,3 +7,9 @@ __pycache__/
 *.pyc
 .env
 automatizacion/canales/autorizado.json
+
+# El historial y los programados solo se suben cifrados (automatizacion/canales/privado.enc)
+automatizacion/canales/circulo-cerrado-historial.md
+automatizacion/canales/circulo-cerrado-programados.json
+*.enc.tmp
+video-privado.enc

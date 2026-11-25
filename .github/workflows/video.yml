@@ -7,6 +7,10 @@
 # verano y en invierno) y toca_hoy.py decide cuál vale. Si falla, NO se repite solo.
 #
 # A mano: pestaña Actions → «Vídeo del día» → Run workflow (por defecto, SIN subir).
+#
+# El repo es PÚBLICO: el registro solo enseña los pasos y cifras; el guion, el título, el
+# historial y el vídeo van cifrados con el secreto CLAVE_PRIVADA (automatizacion/privado.sh).
+# Ojo: lo que escribas en «idea» al lanzarlo a mano SÍ se ve en la ejecución.
 
 name: Vídeo del día
 
@@ -72,6 +76,12 @@ jobs:
           claude --version
           ffmpeg -version | head -1
 
+      - name: Abrir el historial (cifrado)
+        if: steps.toca.outputs.seguir == 'true'
+        env:
+          CLAVE_PRIVADA: ${{ secrets.CLAVE_PRIVADA }}
+        run: bash automatizacion/privado.sh abrir
+
       - name: Hacer el vídeo
         if: steps.toca.outputs.seguir == 'true'
         env:
@@ -87,28 +97,32 @@ jobs:
           FUENTE_PORTADA: /home/runner/.fonts/Anton-Regular.ttf
         run: python automatizacion/dia.py
 
-      # Lo hecho se guarda 7 días en la pestaña Actions, aunque haya fallado.
-      # Ojo: en un repositorio público cualquiera con cuenta de GitHub puede descargarlo.
-      - name: Guardar el vídeo y lo demás
+      # El vídeo y sus archivos, CIFRADOS con CLAVE_PRIVADA (el repo es público y el
+      # artifact lo puede descargar cualquiera con cuenta de GitHub). 7 días en Actions.
+      - name: Cifrar el vídeo y lo demás
+        if: always() && steps.toca.outputs.seguir == 'true'
+        env:
+          CLAVE_PRIVADA: ${{ secrets.CLAVE_PRIVADA }}
+        run: |
+          D=$(ls -d salida/*/ 2>/dev/null | head -1)
+          [ -n "$D" ] || { echo "No hay carpeta de salida."; exit 0; }
+          bash automatizacion/privado.sh empaquetar "$D" video-privado.enc
+
+      - name: Guardar el paquete cifrado
         if: always() && steps.toca.outputs.seguir == 'true'
         uses: actions/upload-artifact@v5
         with:
-          name: video-${{ github.run_id }}
-          path: |
-            salida/*/video.mp4
-            salida/*/portada.jpg
-            salida/*/escenas.json
-            salida/*/resumen.json
-            salida/*/tiempos.json
-            salida/*/medidas.json
-            salida/*/dia.log
-            salida/*/claude.log
+          name: video-privado-${{ github.run_id }}
+          path: video-privado.enc
           retention-days: 7
-          if-no-files-found: warn
+          if-no-files-found: ignore
 
-      - name: Guardar el historial en el repo
+      - name: Guardar el historial en el repo (cifrado)
         if: always() && steps.toca.outputs.seguir == 'true'
+        env:
+          CLAVE_PRIVADA: ${{ secrets.CLAVE_PRIVADA }}
         run: |
+          bash automatizacion/privado.sh cerrar
           git config user.name "circulo-cerrado-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add automatizacion/canales/

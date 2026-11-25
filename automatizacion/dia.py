@@ -34,6 +34,17 @@ from pintor_cf import pintar, SinNeuronas  # noqa: E402
 
 CANAL = "circulo-cerrado"
 
+# Líneas de los pasos que se pueden enseñar en el registro público: empiezan así y no
+# llevan nada del guion ni del título (voz, montaje y portada solo dan cifras).
+PUBLICAS = ("==>", "####", "  trozo ", "  Gemini ", "  Cloudflare ", "  AVISO", "AVISO",
+            "  Subiendo", "  Portada puesta", "  La subida", "ERROR")
+
+
+def es_publica(linea: str) -> bool:
+    if "portada.jpg lista" in linea:      # lleva el texto de la portada
+        return False
+    return linea.startswith(PUBLICAS)
+
 
 def main():
     hoy = datetime.datetime.now(zoneinfo.ZoneInfo("Europe/Madrid"))
@@ -46,10 +57,13 @@ def main():
     carpeta.mkdir(parents=True)
     flog = open(carpeta / "dia.log", "w", encoding="utf-8")
 
-    def log(t):
-        print(t, end="", flush=True)
+    def log(t, publico=True):
+        # Todo va a dia.log (que viaja cifrado). A la pantalla, que en GitHub Actions es
+        # PÚBLICA, solo lo que no cuenta nada del vídeo: títulos de paso, avisos y cifras.
         flog.write(t)
         flog.flush()
+        if publico:
+            print(t, end="", flush=True)
 
     env = dict(os.environ, TZ="Europe/Madrid", HISTORIAL=str(historial), PYTHONUNBUFFERED="1")
 
@@ -58,7 +72,7 @@ def main():
         p = subprocess.Popen(cmd, cwd=carpeta, env=env, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, text=True, bufsize=1, encoding="utf-8")
         for linea in p.stdout:
-            log(linea)
+            log(linea, publico=es_publica(linea))
         if p.wait() != 0:
             log(f"\nERROR: ha fallado «{nombre}». Todo lo hecho está en {carpeta}\n")
             sys.exit(1)
@@ -78,7 +92,7 @@ def main():
     (carpeta / "prompts.json").write_text(json.dumps(prompts, indent=1, ensure_ascii=False), encoding="utf-8")
     destinos = [carpeta / "imagenes" / f"{i:03d}.jpg" for i in range(1, len(prompts))]
     destinos.append(carpeta / "imagenes" / "portada.jpg")
-    log(f"FLUX pinta {len(prompts)} imágenes (semilla {hoy:%Y%m%d})\n")
+    log(f"==> FLUX pinta {len(prompts)} imágenes (semilla {hoy:%Y%m%d})\n")
     try:
         medida = pintar(prompts, destinos, semilla=int(f"{hoy:%Y%m%d}"))
     except SinNeuronas as x:
@@ -87,7 +101,7 @@ def main():
     except RuntimeError as x:
         log(f"\nERROR: {x}\n")
         sys.exit(1)
-    log(f"Listas en {medida['segundos']:.0f} s. Tamaño original: {medida['tamano_original']}. "
+    log(f"==> Listas en {medida['segundos']:.0f} s. Tamaño original: {medida['tamano_original']}. "
         f"Semilla: {'sí' if medida['con_semilla'] else 'no'}.\n")
     (carpeta / "medidas.json").write_text(json.dumps(medida, indent=1), encoding="utf-8")
 
@@ -105,7 +119,7 @@ def main():
         paso("6. Subir a YouTube (programado)",
              ["node", str(AUTO / "subir.mjs"), "--dir", str(carpeta), "--canal", CANAL,
               "--programados", str(programados)])
-    log(f"\nHecho: {carpeta / 'video.mp4'}\n")
+    log("\nHecho: el vídeo y todo lo demás van en el paquete cifrado.\n")
     flog.close()
 
 

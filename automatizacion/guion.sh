@@ -49,8 +49,10 @@ claude -p "$(cat encargo.md)" \
   --max-turns "${MAX_TURNS:-40}" \
   --permission-mode acceptEdits \
   --allowedTools "Read" "Write" "Edit" "Bash(python3:*)" \
-  --verbose 2>&1 | tee claude.log
-SALIO=${PIPESTATUS[0]}
+  --verbose > claude.log 2>&1
+SALIO=$?
+# Lo que escribe Claude va SOLO a claude.log: el repo es público y el registro de
+# GitHub Actions lo puede leer cualquiera. claude.log viaja en el paquete cifrado.
 set -e
 [ "$SALIO" -eq 0 ] || morir "Claude ha terminado mal (código $SALIO). Mira claude.log."
 
