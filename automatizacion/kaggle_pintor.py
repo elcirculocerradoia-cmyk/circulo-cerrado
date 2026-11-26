@@ -5,7 +5,7 @@ FLUX.1-schnell. No se lanza a mano: kaggle_lanzar.py le pega delante la lista de
 
 Cómo cabe en 16 GB:
   1.º los textos: T5 + CLIP en la GPU convierten TODAS las descripciones en números; se borran.
-  2.º el dibujo: FLUX comprimido a 8 bits (GGUF, 12,6 GB) + el VAE pintan una a una.
+  2.º el dibujo: FLUX comprimido a 5 bits (GGUF de city96, 8,3 GB) + el VAE pintan una a una.
 Así cada modelo entra solo en la GPU y no hay que moverlos a cada imagen.
 
 Deja en /kaggle/working: imagenes/<nombre>.jpg e informe.json (tiempos y errores).
@@ -19,6 +19,7 @@ import sys
 import time
 from pathlib import Path
 
+os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 T_INICIO = time.time()
 SALIDA = Path("/kaggle/working")
 (SALIDA / "imagenes").mkdir(parents=True, exist_ok=True)
@@ -55,7 +56,9 @@ BASE = snapshot_download("black-forest-labs/FLUX.1-schnell", token=HF_TOKEN,  # 
                                          "text_encoder_2/*", "tokenizer/*", "tokenizer_2/*",
                                          "vae/*", "transformer/config.json"])
 # Formato que entiende diffusers (el de second-state es para stable-diffusion.cpp: falló el 26/11).
-GGUF = hf_hub_download("city96/FLUX.1-schnell-gguf", "flux1-schnell-Q8_0.gguf")
+# 5 bits (8,3 GB): el de 8 bits (12,7 GB) llenaba la T4 (14,5 GB útiles) y no quedaba sitio
+# para pintar (26/11, «CUDA out of memory»).
+GGUF = hf_hub_download("city96/FLUX.1-schnell-gguf", "flux1-schnell-Q5_K_S.gguf")
 fase("bajar_modelo", t)
 
 from diffusers import FluxPipeline, FluxTransformer2DModel, GGUFQuantizationConfig  # noqa: E402
@@ -105,6 +108,11 @@ for TIPO in (torch.bfloat16, torch.float16):
         informe["errores"].append(f"{TIPO}: {type(e).__name__}: {str(e)[:600]}")
         guardar_informe()
         print(f"  Con {TIPO} ha fallado: {e}", flush=True)
+        # Soltar TODO antes de probar con el otro tipo (el 26/11 el 2.º intento se quedó sin memoria
+        # porque el 1.º seguía ocupándola).
+        pipe = tr = numeros = None
+        import gc
+        gc.collect()
         torch.cuda.empty_cache()
 
 hechas = [v for v in informe["imagenes"].values()]
