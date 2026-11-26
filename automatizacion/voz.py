@@ -9,7 +9,7 @@ Lee escenas.json y deja:
 
 Cómo:
   1. Gemini TTS (gemini-3.8-flash-tts, voz Charon, como Curiosidades) no lee 12 minutos
-     de una vez, así que se graba en TROZOS de párrafos enteros (~350 palabras, ~2 min)
+     de una vez, así que se graba en TROZOS de párrafos enteros (~500 palabras, ~3 min)
      y se pegan con una pausa corta entre ellos.
   2. whisper (faster-whisper, en el procesador) escucha la voz y da el segundo de cada
      palabra.
@@ -41,7 +41,9 @@ ESTILO = os.environ.get("ESTILO", (
     "como si le contara un secreto al oído a quien escucha. Tensión contenida. "
     "Frases cortas con pausas breves entre ellas. Sin gritar y sin voz de anuncio."
 ))
-PALABRAS_TROZO = int(os.environ.get("PALABRAS_TROZO", "350"))
+# 500 y no 350: Gemini gratis solo deja 10 peticiones de voz AL DÍA (26/11); así un vídeo
+# gasta 4-5 y queda margen para repetir.
+PALABRAS_TROZO = int(os.environ.get("PALABRAS_TROZO", "500"))
 PAUSA_TROZOS = 0.5      # segundos de silencio entre trozos
 COLA = 1.5              # segundos de imagen después de la última palabra
 MIN_S, MAX_S = 9 * 60, 16 * 60
