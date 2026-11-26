@@ -52,6 +52,9 @@ suena**. Una imagen nueva cada 4-5 segundos: para 12 minutos salen **unas 150 es
   pelo y un rasgo**: pelo negro corto, calvo, canoso peinado hacia atrás, bigote, barba, gafas de
   sol, gorra… Rasgos que **no cambian** en toda la historia y que se distingan entre personajes.
   Nada de colores de piel ni de ropa.
+- **Poses sobrias y escenas sencillas**: los personajes están quietos o se mueven con calma
+  (de pie, sentados, mirando, andando despacio). Nada de poses exageradas, saltos, carreras
+  dramáticas ni gestos de dibujos animados. Pocos objetos por escena: solo los que cuentan algo.
 - **Varía los planos**: generales del sitio, medios, primeros planos de la cara, detalles de
   objetos (el contrato, el maletín, el reloj, la pantalla del móvil). Que no salgan diez caras
   seguidas.

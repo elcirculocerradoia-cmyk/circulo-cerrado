@@ -1,6 +1,6 @@
 # El vídeo del día de Círculo Cerrado, en GitHub Actions (gratis en un repositorio público).
 #
-# Cada día a las 9:45 de Madrid: guion (Claude) → voz (Gemini) → imágenes (Cloudflare)
+# Cada día a las 9:45 de Madrid: guion (Claude) → voz (Gemini) → imágenes (Kaggle, GPU gratis)
 # → montaje (ffmpeg) → portada → YouTube programado. Todo lo hace automatizacion/dia.py.
 #
 # GitHub solo entiende UTC: el reloj salta a las 7:45 y a las 8:45 UTC (9:45 de Madrid en
@@ -71,7 +71,7 @@ jobs:
           mkdir -p ~/.fonts
           curl -fsSL -o ~/.fonts/PatrickHand-Regular.ttf \
             https://github.com/google/fonts/raw/main/ofl/patrickhand/PatrickHand-Regular.ttf || true
-          python -m pip install -q faster-whisper==1.2.0 Pillow==11.3.0
+          python -m pip install -q faster-whisper==1.2.0 Pillow==11.3.0 kaggle six   # six: a kaggle 2.2.5 le falta
           npm install -g @anthropic-ai/claude-code
           claude --version
           ffmpeg -version | head -1
@@ -87,8 +87,9 @@ jobs:
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}

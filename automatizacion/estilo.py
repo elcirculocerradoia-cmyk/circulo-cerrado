@@ -21,11 +21,16 @@ FLUX entiende mejor el inglés, así que las descripciones van en inglés.
 BASE = (
     "adult 2D animation frame for a serious documentary story, clean black line art, "
     "muted desaturated color palette, dark moody cinematic lighting from a single light source "
-    "with soft gradient shading, gritty tense atmosphere, detailed but simple background, "
+    "with soft gradient shading, tense atmosphere, "
+    "simple flat background with only a few key objects, minimal clutter, not realistic, "
     "not cute, not childish, no bright saturated colors, "
     "no text, no letters, no words, no watermark"
 )
 
+# 26/11: el estilo PERFECTO para Rubén es la imagen 01 de la 1.ª tanda de Kaggle
+# (pruebas/referencias/estilo-perfecto-kaggle-01-original.jpg), que salió con este PERSONAS
+# SIN el «no shirt, no suit» que se probó después. Pidió además: menos detalle en los fondos
+# (punto medio) y poses sobrias, nada «goofy» (la 17, corriendo con la luna, se pasaba).
 # Solo cuando en la escena sale alguien. EXACTAMENTE como el vídeo de referencia de Rubén
 # (25/11): cabeza perfectamente redonda con borde negro grueso y piel lisa gris-beige, SIN
 # nariz ni orejas, ojos de puntito negro, cejas y boca de una raya, cara seria de adulto;
@@ -36,9 +41,9 @@ BASE = (
 PERSONAS = (
     "stick figure characters: perfectly round head with a thick black outline and flat "
     "grey-beige skin, no nose, no ears, tiny solid black dot eyes, thick simple eyebrow lines, "
-    "a simple line mouth, serious deadpan adult expression; the body is a plain thin solid black "
-    "stick figure: black stick torso, thin black stick arms and legs, black hands, "
-    "no shirt, no suit, no clothing details on the body; "
+    "a simple line mouth, serious deadpan adult expression; thin solid black stick body, "
+    "thin black stick arms and legs, black hands; "
+    "calm restrained pose, subtle natural body language, no exaggerated or dynamic poses; "
     "medium shot from the waist up or full body, the black stick body clearly visible, "
     "empty space above the head, subject in the middle"
 )
