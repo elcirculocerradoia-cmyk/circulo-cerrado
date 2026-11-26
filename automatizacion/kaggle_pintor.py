@@ -54,7 +54,8 @@ BASE = snapshot_download("black-forest-labs/FLUX.1-schnell", token=HF_TOKEN,  # 
                          allow_patterns=["model_index.json", "scheduler/*", "text_encoder/*",
                                          "text_encoder_2/*", "tokenizer/*", "tokenizer_2/*",
                                          "vae/*", "transformer/config.json"])
-GGUF = hf_hub_download("second-state/FLUX.1-schnell-GGUF", "flux1-schnell-Q8_0.gguf")
+# Formato que entiende diffusers (el de second-state es para stable-diffusion.cpp: falló el 26/11).
+GGUF = hf_hub_download("city96/FLUX.1-schnell-gguf", "flux1-schnell-Q8_0.gguf")
 fase("bajar_modelo", t)
 
 from diffusers import FluxPipeline, FluxTransformer2DModel, GGUFQuantizationConfig  # noqa: E402
