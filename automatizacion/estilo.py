@@ -36,8 +36,9 @@ BASE = (
 PERSONAS = (
     "stick figure characters: perfectly round head with a thick black outline and flat "
     "grey-beige skin, no nose, no ears, tiny solid black dot eyes, thick simple eyebrow lines, "
-    "a simple line mouth, serious deadpan adult expression; thin solid black stick body, "
-    "thin black stick arms and legs, black hands; "
+    "a simple line mouth, serious deadpan adult expression; the body is a plain thin solid black "
+    "stick figure: black stick torso, thin black stick arms and legs, black hands, "
+    "no shirt, no suit, no clothing details on the body; "
     "medium shot from the waist up or full body, the black stick body clearly visible, "
     "empty space above the head, subject in the middle"
 )

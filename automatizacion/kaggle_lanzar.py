@@ -90,10 +90,11 @@ def prueba():
     salida = AQUI.parent / "pruebas" / "imagenes-kaggle"
     informe = lanzar(trabajos, salida)
     print(json.dumps(informe, indent=1, ensure_ascii=False))
-    media = informe.get("media_s_por_imagen")
+    media = informe.get("s_por_imagen_efectivo")
     if media:
-        print(f"==> {media:.1f} s por imagen → 150 imágenes ≈ {150 * media / 60:.0f} min de GPU "
-              f"(+ {informe['fases'].get('bajar_modelo', 0) / 60:.0f} min bajando el modelo).")
+        print(f"==> {media:.1f} s por imagen (con {informe.get('gpus')} GPU) → 150 imágenes ≈ "
+              f"{150 * media / 60:.0f} min pintando (+ {informe['fases'].get('bajar_modelo', 0) / 60:.0f} "
+              f"min bajando el modelo).")
     # La portada de prueba montada
     tmp = salida / "portada"
     (tmp / "imagenes").mkdir(parents=True, exist_ok=True)
