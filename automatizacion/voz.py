@@ -149,7 +149,13 @@ def escuchar(wav: Path):
     from faster_whisper import WhisperModel
     modelo = WhisperModel(os.environ.get("WHISPER", "small"), device="cpu", compute_type="int8",
                           cpu_threads=os.cpu_count() or 4)
-    partes, _ = modelo.transcribe(str(wav), language="es", word_timestamps=True,
+    # El audio se lee con ffmpeg y se le pasa ya en números: el lector propio de faster-whisper
+    # (PyAV) cambió y rompía (26/11: «open() got an unexpected keyword argument»).
+    import numpy as np
+    crudo = subprocess.run(["ffmpeg", "-v", "error", "-i", str(wav), "-f", "f32le", "-ac", "1",
+                            "-ar", "16000", "pipe:1"], capture_output=True, check=True).stdout
+    audio = np.frombuffer(crudo, dtype=np.float32)
+    partes, _ = modelo.transcribe(audio, language="es", word_timestamps=True,
                                   vad_filter=False, beam_size=1)
     palabras = []
     for p in partes:

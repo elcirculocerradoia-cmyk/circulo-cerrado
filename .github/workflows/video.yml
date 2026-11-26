@@ -71,7 +71,7 @@ jobs:
           mkdir -p ~/.fonts
           curl -fsSL -o ~/.fonts/PatrickHand-Regular.ttf \
             https://github.com/google/fonts/raw/main/ofl/patrickhand/PatrickHand-Regular.ttf || true
-          python -m pip install -q faster-whisper==1.2.0 Pillow==11.3.0 kaggle six   # six: a kaggle 2.2.5 le falta
+          python -m pip install -q faster-whisper==1.2.0 requests numpy Pillow==11.3.0 kaggle six   # six y requests: les faltan a kaggle y faster-whisper
           npm install -g @anthropic-ai/claude-code
           claude --version
           ffmpeg -version | head -1
