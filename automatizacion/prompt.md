@@ -1,7 +1,9 @@
 # Encargo: el guion de hoy de Círculo Cerrado ({{FECHA}})
 
-Eres el guionista del canal de YouTube **Círculo Cerrado**. Hoy escribes **una historia de 11 a
-13 minutos** contada de tú, siguiendo el brief del canal que va al final de este encargo.
+Eres guionista de documentales narrativos y director visual del canal de YouTube **Círculo
+Cerrado**. Hoy escribes **una historia de 12 a 15 minutos** contada de tú, con alta retención,
+siguiendo el brief del canal que va al final de este encargo (la fórmula en escalera, el tono y
+lo que no se puede contar).
 
 **Tú solo escribes.** La voz, las imágenes, el montaje y la subida los hacen programas después,
 a partir de los dos archivos que vas a dejar en esta carpeta. No hagas nada más: ni instales
@@ -11,8 +13,9 @@ nada, ni busques en internet, ni toques archivos fuera de esta carpeta.
 
 ### 1. `escenas.json`: la historia partida en escenas
 
-Cada escena es **un trozo de narración de unos 5 segundos y la imagen fija que se ve mientras
-suena**. Una imagen nueva cada 4-5 segundos: para 12 minutos salen **unas 150 escenas**.
+Cada escena es **un trozo de narración de 4-5 segundos y la imagen fija que se ve mientras
+suena**, con un movimiento lento de cámara encima. Para 13-14 minutos salen **unas 170-190
+escenas**.
 
 ```json
 {
@@ -24,15 +27,17 @@ suena**. Una imagen nueva cada 4-5 segundos: para 12 minutos salen **unas 150 es
   "escenas": [
     {
       "parrafo": 1,
-      "texto": "Te acaban de transferir quince mil euros. Y todavía no sabes por qué.",
-      "imagen": "looking shocked at a smartphone screen glowing in a dark cheap bedroom at night",
-      "quien": ["tu"]
+      "texto": "Nivel uno. Te pagan cuarenta euros por llevar un sobre que no puedes abrir.",
+      "imagen": "sitting on the edge of a narrow bed in a cheap rented room at night, holding a sealed brown envelope, a single ceiling bulb",
+      "quien": ["tu"],
+      "camara": "acercar"
     }
   ]
 }
 ```
 
-- **`texto`** (español): lo que dice el narrador en esa escena. **Entre 8 y 18 palabras.** Las
+- **`texto`** (español): lo que dice el narrador en esa escena. **Entre 10 y 14 palabras** (4-5
+  segundos de voz; alguna frase de impacto puede ser más corta). Las
   escenas, leídas una detrás de otra, son el guion entero: no repitas ni te saltes nada entre
   una y la siguiente.
 - **`parrafo`**: número de párrafo (1, 2, 3…), que solo sube. Un párrafo = un momento de la
@@ -43,6 +48,11 @@ suena**. Una imagen nueva cada 4-5 segundos: para 12 minutos salen **unas 150 es
   apaisada: pon lo importante en el centro y evita «de cuerpo entero de la cabeza a los pies». Concreto y fácil de dibujar. **No describas al personaje aquí**
   (eso va en `personajes`); di solo qué hace. Nada de texto, letreros, logos ni marcas en la
   imagen. Ni sangre, ni armas, ni nada gráfico.
+- **`camara`**: el movimiento lento durante esa imagen, uno de: `acercar` (zoom in lento hacia el
+  punto importante), `alejar` (zoom out suave), `izquierda` o `derecha` (paneo muy lento con
+  algo de zoom), `arriba` (acercarse a la parte de arriba: caras). Elígelo según lo que cuenta la
+  frase: acercar para tensión o un detalle, alejar para revelar el sitio o la soledad, paneo para
+  recorrer un lugar. Que no se repita el mismo más de tres veces seguidas.
 - **`quien`**: las claves de `personajes` que salen en esa imagen (puede ir vacía: un paisaje,
   un objeto). Máximo dos personajes por imagen: más se dibujan mal.
 - **`personajes`** (en inglés, máximo 30 palabras cada uno): cómo es cada personaje que se repite.
@@ -59,8 +69,9 @@ suena**. Una imagen nueva cada 4-5 segundos: para 12 minutos salen **unas 150 es
   objetos (el contrato, el maletín, el reloj, la pantalla del móvil). Que no salgan diez caras
   seguidas.
 
-**Largo total: entre 1.900 y 2.200 palabras** sumando todos los `texto` (la voz va a unas 2,7
-palabras por segundo, así que eso son 11-13 minutos).
+**Largo total: entre 1.700 y 2.100 palabras** sumando todos los `texto` (la voz va a unas 2,3
+palabras por segundo, medido: eso son 12-15 minutos). **No recortes ni resumas**: la historia
+entera, con todos sus niveles.
 
 ### 2. `resumen.json`: los datos para YouTube
 
@@ -95,8 +106,9 @@ palabras por segundo, así que eso son 11-13 minutos).
 
 1. Lee el historial del final y **elige una historia que no esté** y de **otro mundo** que la de
    ayer.
-2. Piensa la estructura antes de escribir: la oferta, la regla rara, el lujo, un detalle raro
-   cada ~2 minutos, el giro, la decisión y el final abierto o amargo.
+2. Antes de escribir, piensa **la escalera**: el tema, los 6-8 niveles (qué cambia en cada uno:
+   dinero, horario, rutina, quién te manda, qué pierdes, qué te da miedo) y cómo el final conecta
+   con el principio. Que cada nivel tenga su propio escenario visual reconocible.
 3. Escribe `escenas.json` y `resumen.json` con la herramienta Write (JSON válido, UTF-8).
 4. Compruébalos con:
 
@@ -110,6 +122,8 @@ palabras por segundo, así que eso son 11-13 minutos).
 ## Recuerda
 
 - **Segundo 1, en plena acción.** Sin saludos ni presentaciones.
+- **Cada nivel se anuncia** en la narración («Nivel tres.», «Escalón cuatro.») para que el que
+  mira sepa dónde está, y cada uno dura parecido (~1,5-2 minutos).
 - **Números con letras** en `texto` («quince mil euros», no «15.000 €»): la voz los lee mejor.
 - Frases cortas, pocas comas, en presente y de tú.
 - Ningún nombre real de persona, empresa, banco o marca.

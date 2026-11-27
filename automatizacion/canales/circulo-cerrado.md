@@ -14,59 +14,53 @@
   Personajes y sitios con nombres inventados o sin nombre («el magnate», «la mansión de la
   colina»).
 
-## La fórmula de cada vídeo
+## La fórmula de cada vídeo: una ESCALERA
 
-1. **Segundo 1: en plena acción.** Nada de saludos, ni «hoy te voy a contar», ni «bienvenidos».
-   La primera frase ya te mete dentro: «Te acaban de transferir quince mil euros. Y todavía no
-   sabes por qué.»
-2. **La oferta (0-2 min).** Quién eres (alguien normal, con deudas, un trabajo gris, un sueño), la
-   oferta que no puedes rechazar y **la única regla rara** («nunca preguntes qué hay en el
-   maletín», «nunca mires quién llega en el helicóptero de los viernes»).
-3. **El lujo (2-5 min).** Lo bien que te va. Detalles concretos de dinero y de lujo que se puedan
-   imaginar: cifras, coches, relojes, comidas, sitios. El que mira tiene que querer estar ahí.
-4. **Lo raro (cada ~2 minutos, un detalle).** Algo pequeño que no cuadra: una firma que no
-   recuerdas, un invitado que desaparece, una cuenta a tu nombre. Cada detalle sube la paranoia
-   un escalón y te ata un poco más.
-5. **El giro (hacia el minuto 8-10).** Entiendes qué es todo en realidad y que ya es tarde: eres
-   parte de ello.
-6. **La decisión y el final (últimos 2-3 min).** Tienes que elegir. El final es **abierto o
-   amargo**, nunca un «y todo salió bien». La última frase se queda en la cabeza.
-7. **Cierre:** una pregunta al que mira que se conteste en pocas palabras: «¿Tú habrías firmado?».
+Como el vídeo de referencia del canal («cómo se siente ser cada rango de…»): el que mira **vive
+el proceso desde dentro, de tú, subiendo escalón a escalón**. Cada nivel da más dinero, más
+poder y más riesgo, y cada nivel cuesta algo más. Siempre dentro del mundo del canal: el dinero,
+el lujo y la élite, y lo que hay debajo.
 
-## Ejemplos de la fórmula (para ver el tono; no los repitas tal cual)
+1. **Segundo 1: en plena acción.** Nada de saludos ni de «hoy te voy a contar». La primera frase
+   ya te mete dentro: «Nivel uno. Te pagan cuarenta euros por llevar un sobre que no puedes abrir.»
+2. **De 6 a 8 niveles numerados**, cada uno de ~1,5-2 minutos, que suben de escala. En cada uno:
+   - **qué haces** (la rutina mecánica, los horarios, los objetos de verdad: el móvil de prepago,
+     el traje, la llave de la caja, la agenda),
+   - **cuánto ganas** (cifras concretas: «cuatrocientos euros al mes», «doce mil por noche»),
+   - **quién está por encima** y quién por debajo,
+   - **lo que te cuesta**: cansancio, paranoia, frialdad, la familia que deja de llamarte, el
+     amigo al que ya no puedes contarle nada.
+3. **Contrastes brutales** entre lo cotidiano y lo extremo: «Por la mañana llevas a tu hija al
+   colegio. Por la noche firmas papeles que mueven cuarenta millones.»
+4. **El último nivel** es la cima… y ahí se ve el precio real de haber llegado.
+5. **Cierre reflexivo y circular:** el final conecta con el principio (vuelve el sobre del nivel
+   uno, el chaval que ahora empieza donde empezaste tú…). La última frase se queda en la cabeza.
+6. **Una pregunta al que mira**, que se conteste en pocas palabras: «¿Hasta qué nivel llegarías tú?».
 
-- **Asistente fantasma:** «POV: Te contratan como asistente privado de un multimillonario que no
-  existe». Te pagan 15.000 €/mes por firmar papeles y mover maletines sin preguntar, hasta que
-  descubres que eres el testaferro legal de una red oculta.
-- **La subasta secreta:** «POV: Entras como seguridad en una subasta privada donde no se puja con
-  dinero». Una gala benéfica de lujo en una mansión aislada, hasta que ves qué se reparten de
-  verdad los invitados.
-- **El fraude perfecto:** «POV: Creas una empresa falsa para estafar a un fondo de inversión (y sale
-  demasiado bien)». Te transfieren 40 millones y el dinero es de gente que no llama a la policía.
-- **Arte contaminado:** «POV: Eres el tasador que descubre que la colección de un magnate es falsa».
-  24 horas encerrado en una bóveda para decidir si firmas el certificado.
-- **El grupo VIP:** «POV: Te invitan a un club privado de trading donde nadie pierde nunca». Hasta
-  que te piden un «favor» y entiendes que blanqueas dinero desde tu móvil.
-- **La isla privada:** «POV: Aceptas trabajar un verano como chef privado en una isla sin
-  cobertura». Una única regla: nunca mirar quién llega en el helicóptero de los viernes.
-- **El testamento:** «POV: Un desconocido te deja 80 millones en herencia con una sola condición».
-  En cuanto aceptas, notas que alguien vigila cada movimiento que haces.
+## Ejemplos de escaleras (para ver la idea; no los copies tal cual)
 
-**Elige tú la historia del día**, que no esté ya en el historial, y **varía el mundo**: no dos días
-seguidos del mismo (arte, finanzas, herencias, hoteles, yates, clubs, inmobiliarias, coches de
-lujo, vinos, joyas, casinos privados, fundaciones benéficas…). Los ejemplos de arriba se pueden
-usar como punto de partida, pero cuéntalos a tu manera.
+- **Cada nivel del servicio de un multimillonario:** del que friega los platos del yate al que
+  sabe dónde están todas las cuentas.
+- **Cada rango de un club privado de inversión** donde nadie pierde nunca… hasta que te piden un favor.
+- **Cada escalón de un casino clandestino de lujo:** de aparcacoches a quien decide quién no sale.
+- **Cada nivel de un testaferro:** de firmar un papel por cien euros a tener cuarenta empresas a
+  tu nombre que no conoces.
+- **Cada nivel de una herencia envenenada**, de una subasta privada, de una isla sin cobertura…
+
+**Elige tú la escalera del día**, que no esté ya en el historial, y **varía el mundo**: no dos
+días seguidos del mismo (arte, finanzas, herencias, hoteles, yates, clubs, inmobiliarias, coches
+de lujo, vinos, joyas, casinos privados, fundaciones benéficas…).
 
 ## El tono
 
 - **De tú, en presente, español de España.** «Abres la puerta. Huele a cuero y a dinero.»
-- **Voz grave, pausada y cercana, como contándote un secreto al oído.** Frases cortas. Pausas.
-  Ni voz de anuncio ni de youtuber gritando.
+- **Crudo, directo, frío y observacional**, con **ironía amarga**. Nada de moralina ni de
+  emoción fácil: cuenta lo que pasa y deja que pese.
+- **Voz grave y pausada**, como contándote un secreto. Frases cortas. Pausas.
 - **Pocas comas.** En la voz una coma es una pausa: pon solo las que haría alguien contándolo.
-- **Números concretos:** «quince mil euros al mes», «cuarenta millones», «un reloj que vale más
-  que tu piso». En el guion, los números **escritos con letras** para que la voz los lea bien.
-- **Tensión sin violencia.** El miedo sale de lo que intuyes, de lo que no te dicen, de las
-  consecuencias legales y del poder de esa gente. No de sangre ni de golpes.
+- **Números concretos** y **escritos con letras** para que la voz los lea bien.
+- **Tensión sin violencia.** El miedo sale de lo que intuyes, del poder de esa gente y de las
+  consecuencias. No de sangre ni de golpes.
 
 ## Lo que no quiero
 
@@ -92,8 +86,9 @@ con cuidado.
 
 En `resumen.json`:
 
-- **El título:** empieza por «POV:» y es la oferta irresistible con la trampa insinuada. De tú,
-  menos de 90 caracteres. «POV: Te pagan 15.000 € al mes por no hacer preguntas».
+- **El título:** la escalera entera en una línea, con gancho. Menos de 90 caracteres.
+  «Cómo se siente ser cada nivel del servicio de un multimillonario» o «POV: Subes cada
+  nivel de un club donde nadie pierde nunca».
 - **La descripción:** tres o cuatro líneas que enganchen sin destripar el giro, la pregunta del
   final y una línea fija: «Historia de ficción. Cualquier parecido con la realidad es
   coincidencia.»

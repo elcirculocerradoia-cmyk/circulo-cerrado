@@ -14,9 +14,10 @@ import re
 import sys
 from pathlib import Path
 
-PALABRAS_MIN, PALABRAS_MAX = 1900, 2200
-ESCENA_MIN, ESCENA_MAX = 8, 18          # palabras por escena (≈ 3-7 s de voz)
-ESCENAS_MIN, ESCENAS_MAX = 120, 200
+PALABRAS_MIN, PALABRAS_MAX = 1700, 2100
+ESCENA_MIN, ESCENA_MAX = 10, 15         # palabras por escena (≈ 4-6 s de voz a 2,3 palabras/s)
+ESCENAS_MIN, ESCENAS_MAX = 140, 230
+CAMARAS = {"acercar", "alejar", "izquierda", "derecha", "arriba"}
 RELLENO = {"#viral", "#fyp", "#parati", "#foryou", "#shorts"}
 
 
@@ -48,7 +49,7 @@ def comprobar(carpeta: Path) -> list[str]:
         if palabras(d) > 30:
             fallos.append(f"El personaje '{k}' tiene {palabras(d)} palabras de descripción (máximo 30).")
     if not (ESCENAS_MIN <= len(esc) <= ESCENAS_MAX):
-        fallos.append(f"Hay {len(esc)} escenas y tienen que ser entre {ESCENAS_MIN} y {ESCENAS_MAX} (≈150).")
+        fallos.append(f"Hay {len(esc)} escenas y tienen que ser entre {ESCENAS_MIN} y {ESCENAS_MAX} (≈180).")
     total, anterior = 0, 0
     cortas, largas = [], []
     for i, s in enumerate(esc, 1):
@@ -73,6 +74,8 @@ def comprobar(carpeta: Path) -> list[str]:
             fallos.append(f"La escena {i}: 'parrafo' tiene que ser un número que no baja.")
         else:
             anterior = p
+        if s.get("camara") and s["camara"] not in CAMARAS:
+            fallos.append(f"La escena {i}: 'camara' tiene que ser una de {sorted(CAMARAS)}.")
         for q in s.get("quien") or []:
             if q not in pers:
                 fallos.append(f"La escena {i} usa el personaje '{q}', que no está en 'personajes'.")
@@ -139,7 +142,7 @@ def main():
                                       encoding="utf-8")
     total = sum(palabras(s["texto"]) for s in e["escenas"])
     print(f"{len(e['escenas'])} escenas, {len(parrafos)} párrafos, {total} palabras "
-          f"(≈{total / 2.7 / 60:.1f} min de voz).")
+          f"(≈{total / 2.3 / 60:.1f} min de voz).")
     print("TODO BIEN")
 
 

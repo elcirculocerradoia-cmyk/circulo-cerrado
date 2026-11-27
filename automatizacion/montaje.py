@@ -20,7 +20,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 FPS = 30
-ZOOM = 0.12          # cuánto se acerca (o se aleja) en cada imagen: 12 %
+ZOOM = 0.08          # cuánto se acerca (o se aleja) en cada imagen: del 100 % al 108 % (28/11)
 
 # Movimientos, por turnos, para que no sean todos iguales.
 # `on` es el fotograma dentro del clip y N el total de fotogramas del clip.
@@ -43,8 +43,12 @@ def morir(m):
     sys.exit(1)
 
 
-def clip(i, img, n, destino):
-    z, x, y = (s.format(z=ZOOM, N=max(n - 1, 1)) for s in MOVIMIENTOS[i % len(MOVIMIENTOS)])
+# Lo que Claude pone en escenas.json → "camara" (28/11). Si no lo pone, van por turnos.
+CAMARA = {"acercar": 0, "alejar": 1, "derecha": 2, "arriba": 3, "izquierda": 4}
+
+
+def clip(mov, img, n, destino):
+    z, x, y = (s.format(z=ZOOM, N=max(n - 1, 1)) for s in MOVIMIENTOS[mov])
     filtro = (f"scale=3840:2160:force_original_aspect_ratio=increase,crop=3840:2160,"
               f"zoompan=z='{z}':x='{x}':y='{y}':d={n}:s=1920x1080:fps={FPS},"
               f"format=yuv420p")
@@ -53,11 +57,17 @@ def clip(i, img, n, destino):
                         "-crf", "20", "-pix_fmt", "yuv420p", "-threads", "1", str(destino)],
                        capture_output=True, text=True)
     if p.returncode:
-        raise RuntimeError(f"clip {i + 1}: {p.stderr[-400:]}")
+        raise RuntimeError(f"clip {destino.stem}: {p.stderr[-400:]}")
 
 
 def main():
     tiempos = json.loads(Path("tiempos.json").read_text(encoding="utf-8"))
+    try:
+        escenas = json.loads(Path("escenas.json").read_text(encoding="utf-8"))["escenas"]
+    except (FileNotFoundError, KeyError):
+        escenas = []
+    movs = [CAMARA.get((escenas[i].get("camara") if i < len(escenas) else "") or "", i % len(MOVIMIENTOS))
+            for i in range(len(tiempos))]
     imgs = sorted(Path("imagenes").glob("[0-9][0-9][0-9].jpg"))   # no la de la portada
     if len(imgs) != len(tiempos):
         morir(f"Hay {len(imgs)} imágenes y {len(tiempos)} escenas en tiempos.json.")
@@ -74,7 +84,7 @@ def main():
     trabajos = os.cpu_count() or 4
     print(f"==> Montando {len(imgs)} clips con zoom lento ({trabajos} a la vez)", flush=True)
     with ThreadPoolExecutor(trabajos) as ex:
-        futuros = [ex.submit(clip, i, img, n, tmp / f"{i + 1:03d}.mp4")
+        futuros = [ex.submit(clip, movs[i], img, n, tmp / f"{i + 1:03d}.mp4")
                    for i, (img, n) in enumerate(zip(imgs, cuadros))]
         for k, f in enumerate(futuros, 1):
             try:
